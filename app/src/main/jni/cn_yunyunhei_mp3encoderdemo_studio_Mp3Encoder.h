@@ -9,11 +9,35 @@ extern "C" {
 #endif
 /*
  * Class:     cn_yunyunhei_mp3encoderdemo_studio_Mp3Encoder
- * Method:    encode
+ * Method:    close
  * Signature: ()V
  */
-JNIEXPORT void JNICALL Java_cn_yunyunhei_mp3encoderdemo_studio_Mp3Encoder_encode
-  (JNIEnv *, jobject);
+JNIEXPORT void JNICALL Java_cn_yunyunhei_mp3encoderdemo_studio_Mp3Encoder_close
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     cn_yunyunhei_mp3encoderdemo_studio_Mp3Encoder
+ * Method:    encode
+ * Signature: ([S[SI[B)I
+ */
+JNIEXPORT jint JNICALL Java_cn_yunyunhei_mp3encoderdemo_studio_Mp3Encoder_encode
+  (JNIEnv *, jclass, jshortArray, jshortArray, jint, jbyteArray);
+
+/*
+ * Class:     cn_yunyunhei_mp3encoderdemo_studio_Mp3Encoder
+ * Method:    flush
+ * Signature: ([B)I
+ */
+JNIEXPORT jint JNICALL Java_cn_yunyunhei_mp3encoderdemo_studio_Mp3Encoder_flush
+  (JNIEnv *, jclass, jbyteArray);
+
+/*
+ * Class:     cn_yunyunhei_mp3encoderdemo_studio_Mp3Encoder
+ * Method:    init
+ * Signature: (IIIII)V
+ */
+JNIEXPORT void JNICALL Java_cn_yunyunhei_mp3encoderdemo_studio_Mp3Encoder_init
+  (JNIEnv *, jclass, jint, jint, jint, jint, jint);
 
 #ifdef __cplusplus
 }

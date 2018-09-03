@@ -1,10 +1,8 @@
 package cn.yunyunhei.mp3encoderdemo;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
-
-import cn.yunyunhei.mp3encoderdemo.studio.Mp3Encoder;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,8 +20,8 @@ public class MainActivity extends AppCompatActivity {
         TextView tv = (TextView) findViewById(R.id.sample_text);
         tv.setText(stringFromJNI());
 
-        Mp3Encoder mp3Encoder = new Mp3Encoder();
-        mp3Encoder.encode();
+//        Mp3Encoder mp3Encoder = new Mp3Encoder();
+//        mp3Encoder.encode();
     }
 
     /**

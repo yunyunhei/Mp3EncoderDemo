@@ -41,14 +41,14 @@
 # include <string.h>
 # include <ctype.h>
 #else
-# ifndef HAVE_STRCHR
+/*# ifndef HAVE_STRCHR
 #  define strchr index
 #  define strrchr rindex
-# endif
+# endif*/
 char   *strchr(), *strrchr();
-# ifndef HAVE_MEMCPY
+/*# ifndef HAVE_MEMCPY
 #  define memcpy(d, s, n) bcopy ((s), (d), (n))
-# endif
+# endif*/
 #endif
 
 

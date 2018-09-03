@@ -5,10 +5,20 @@
 
 cmake_minimum_required(VERSION 3.4.1)
 
+#设置变量xxx为xxxx的所在路径
 set(PATH_TO_MEDIACORE ${CMAKE_SOURCE_DIR}/src/main/cpp)
+set(PATH_TO_LAME ${CMAKE_SOURCE_DIR}/src/main/cpp/lame)
 set(PATH_TO_JNI_LAYER ${CMAKE_SOURCE_DIR}/src/main/jni)
 
-file(GLOB FILES_TEST "${PATH_TO_MEDIACORE}/*.cpp")
+#指定头文件所在，可以多次调用，指定多个路径
+include_directories(${PATH_TO_LAME})
+
+#添加自自定义的so库时，有两种方式，一种添加一个目录，一种一个个文件添加
+
+#设定一个目录
+aux_source_directory(${PATH_TO_LAME} SRC_LIST)
+
+file(GLOB FILES_MEDIACORE "${PATH_TO_MEDIACORE}/*.cpp")
 file(GLOB FILES_JNI_LAYER "${PATH_TO_JNI_LAYER}/*.cpp")
 
 # Creates and names a library, sets it as either STATIC
@@ -23,7 +33,8 @@ add_library( # Sets the name of the library.
              SHARED
 
              # Provides a relative path to your source file(s).
-             ${FILES_TEST}
+             ${SRC_LIST}
+             ${FILES_MEDIACORE}
              ${FILES_JNI_LAYER})
 
 # Searches for a specified prebuilt library and stores the path as a
