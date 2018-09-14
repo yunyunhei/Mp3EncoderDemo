@@ -35,7 +35,7 @@ public class PcmToWav {
      * @param channel    channel、声道
      * @param encoding   Audio data format、音频格式
      */
-    PcmToWav(int sampleRate, int channel, int encoding) {
+    public PcmToWav(int sampleRate, int channel, int encoding) {
         this.mSampleRate = sampleRate;
         this.mChannel = channel;
         this.mBufferSize = AudioRecord.getMinBufferSize(mSampleRate, mChannel, encoding);

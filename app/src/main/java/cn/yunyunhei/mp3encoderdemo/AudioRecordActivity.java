@@ -9,11 +9,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import cn.yunyunhei.mp3encoderdemo.audio.PcmToWav;
+import cn.yunyunhei.mp3encoderdemo.studio.Mp3EncoderTwo;
 
 public class AudioRecordActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -37,6 +41,8 @@ public class AudioRecordActivity extends AppCompatActivity implements View.OnCli
 
     Button pcm_to_wav;
 
+    Button pcm_to_mp3;
+
     Button play_audio;
 
 
@@ -59,6 +65,9 @@ public class AudioRecordActivity extends AppCompatActivity implements View.OnCli
 
         pcm_to_wav = findViewById(R.id.pcm_to_wav);
         pcm_to_wav.setOnClickListener(this);
+
+        pcm_to_mp3 = findViewById(R.id.pcm_to_mp3);
+        pcm_to_mp3.setOnClickListener(this);
 
         play_audio = findViewById(R.id.play_audio);
         play_audio.setOnClickListener(this);
@@ -134,6 +143,122 @@ public class AudioRecordActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
+
+    private boolean isPcmToWaving = false;
+
+
+    PcmToWav mPcmToWav;
+
+    private void startPcmToWav() {
+        if (isPcmToWaving) {
+            return;
+        }
+
+        if (curFilePath == null || "".equals(curFilePath)) {
+            showMessage("not have file");
+            return;
+        }
+
+        isPcmToWaving = true;
+
+        if (mPcmToWav == null) {
+            mPcmToWav = new PcmToWav(SAMPLE_RATE_INHZ, CHANNEL_CONFIG, AUDIO_FORMAT);
+        }
+
+        final File inFile = new File(curFilePath);
+
+        final String outFilePath = curFilePath.replace("pcm", "wav");
+
+        File outFile = new File(outFilePath);
+
+        if (outFile.exists()) {
+            showMessage("file has exist");
+            isPcmToWaving = false;
+            return;
+        }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                Log.d("AudioRecord", "start pcm to wave");
+
+                mPcmToWav.pcmToWav(inFile.getAbsolutePath(), outFilePath);
+
+                Log.d("AudioRecord", "end pcm to wave");
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        isPcmToWaving = false;
+                        showMessage("pcm to wave successfully");
+                    }
+                });
+
+            }
+        }).start();
+
+    }
+
+    private boolean isPcmToMp3ing = false;
+
+
+    private void startPcmToMp3(){
+        if (isPcmToMp3ing){
+            return;
+        }
+
+        if (curFilePath == null || "".equals(curFilePath)) {
+            showMessage("not have file");
+            return;
+        }
+
+        isPcmToMp3ing = true;
+
+        final String inFilePath = curFilePath;
+
+        final String outFilePath = curFilePath.replace("pcm", "mp3");
+
+        File outFile = new File(outFilePath);
+
+        if (outFile.exists()) {
+            showMessage("file has exist");
+            isPcmToMp3ing = false;
+            return;
+        }
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                Log.d("AudioRecord", "start pcm to mp3");
+
+                Mp3EncoderTwo mp3EncoderTwo = new Mp3EncoderTwo();
+                mp3EncoderTwo.init(inFilePath, 1, 32, SAMPLE_RATE_INHZ, outFilePath);
+                mp3EncoderTwo.encode();
+                mp3EncoderTwo.destroy();
+
+                Log.d("AudioRecord", "end pcm to mp3");
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        isPcmToMp3ing = false;
+                        showMessage("pcm to mp3 successfully");
+                    }
+                });
+
+            }
+        }).start();
+
+
+    }
+
+    private void showMessage(String msg){
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -149,8 +274,13 @@ public class AudioRecordActivity extends AppCompatActivity implements View.OnCli
                 }
                 break;
             case R.id.pcm_to_wav:
+                startPcmToWav();
+                break;
+            case R.id.pcm_to_mp3:
+                startPcmToMp3();
                 break;
             case R.id.play_audio:
+
                 break;
         }
     }

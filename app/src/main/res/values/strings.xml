@@ -8,4 +8,5 @@
     <string name="start_record">start record</string>
     <string name="end_record">end record</string>
     <string name="pcm_to_wav">pcm to wav</string>
+    <string name="pcm_to_mp3">pcm to mp3</string>
 </resources>

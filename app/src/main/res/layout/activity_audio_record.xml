@@ -20,6 +20,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/pcm_to_wav"
+        app:layout_constraintBottom_toTopOf="@+id/pcm_to_mp3"/>
+
+    <Button
+        android:id="@+id/pcm_to_mp3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/pcm_to_mp3"
         app:layout_constraintBottom_toTopOf="@+id/play_audio"/>
 
     <Button
